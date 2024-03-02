@@ -1,0 +1,32 @@
+なぜConsumerを使うのか
+・ConsumerWidgetのままでは、値に変更が加わるとtitleやmessageなどstaticなものまでリビルドされてしまう。
+・Consumerを使えば、変更が加わった部分だけリビルドさせることができる
+
+copyWithメソッドとは何か？
+オブジェクトをコピーする際にcopyWithの引数に与えた物のみ変更したものを返してくれるメソッド。
+(例) 引用：https://dev.classmethod.jp/articles/flutter_freezed_introduction/#toc-13
+final book1  = Book(name: "title1", numberOfPages: 20, isFamous: false)
+final book2 = book1.copyWith(numberOfPages: 30);    //numberOfPagesを30に変更してコピー
+print(book2.name); // title1
+
+テスト駆動型開発(TDD)
+ロジックを作り始める前に、テストから作り始める開発手法
+以下を繰り返す
+・テストコードを作成
+・テストを実行→失敗
+・実装コードを作成！
+・テストを実行→成功
+ちゃんと動くコードを作るという意味では、テストは有効
+
+Widget Test
+Flutter標準に搭載されたテスト
+WidgetTreeの中身を精査する
+
+Flutter Golden Tests
+実際の画面をスクリーンショットを撮って精査する
+1.Goldenという良好な参照スクリーンショットを作成する。
+2.テスト実施時のスクリーンショットがGoldenと同じか自動で確認する
+3.同じであればテスト成功。違ったらテスト失敗。
+Goldenを作るコマンド
+flutter pub add golden_toolkit
+

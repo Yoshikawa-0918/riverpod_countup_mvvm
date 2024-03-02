@@ -1,0 +1,40 @@
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility in the flutter_test package. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_countup_mvvm/main.dart';
+
+void main() {
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    //MyAppをProviderScopeでWrapしてRiverpodを使えるようにする
+    await tester.pumpWidget(ProviderScope(child: const MyApp()));
+
+    //初期状態は0が3つで、1は表示されない
+    expect(find.text('0'), findsNWidgets(3));
+    expect(find.text('1'), findsNothing);
+
+    //+ボタンを押す
+    await tester.tap(find.byIcon(Icons.add));
+    //画面を更新する
+    await tester.pump();
+
+    //+ボタンを押した後の状態のテキストをテストする
+    expect(find.text('0'), findsOneWidget);
+    expect(find.text('1'), findsNWidgets(2));
+
+    //-ボタンを押す
+    await tester.tap(find.byIcon(Icons.remove));
+    await tester.tap(find.byIcon(Icons.remove));
+    await tester.pump();
+
+    expect(find.text('-1'), findsOneWidget);
+    expect(find.text('1'), findsOneWidget);
+    expect(find.text('2'), findsOneWidget);
+  });
+}
